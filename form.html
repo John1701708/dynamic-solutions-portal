@@ -201,6 +201,12 @@
                 <input type="text" id="personOnCall" required placeholder="Enter person on call">
             </div>
 
+            <!-- 📱 PHONE NUMBER - Person on Call ke baad -->
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number *</label>
+                <input type="text" id="phoneNumber" required placeholder="Enter phone number">
+            </div>
+
             <div class="form-group">
                 <label for="product">Product *</label>
                 <input type="text" id="product" required placeholder="Enter product name">
@@ -218,8 +224,8 @@
             </div>
 
             <div class="form-group">
-                <label for="referenceNumber">Reference Number (Phone) *</label>
-                <input type="text" id="referenceNumber" required placeholder="Enter phone/reference number">
+                <label for="referenceNumber">Reference Number</label>
+                <input type="text" id="referenceNumber" placeholder="Enter reference number (optional)">
             </div>
 
             <div class="form-row">
@@ -262,14 +268,14 @@
 
     <script>
         // ⚠️ YAHAN APNA GOOGLE APPS SCRIPT URL DAALO
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwH4nC9JFYUZ4hg-7IKW72HYHtffFR3iQaRNtfQGS-WIZuPOgw9JDSaBL0HRQvz-84/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyoN8TpsAWJsUFkWghcrJBuLEEprqG4wjGeccI92QErVDrvDKSmitMfi4uhkKyydqo/exec';
 
         // Auto-fill phone from URL if coming from check page
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const phone = urlParams.get('phone');
             if (phone) {
-                document.getElementById('referenceNumber').value = phone;
+                document.getElementById('phoneNumber').value = phone;
             }
         };
 
@@ -288,6 +294,7 @@
             // Collect data
             const nameOnBill = document.getElementById('nameOnBill').value.trim();
             const personOnCall = document.getElementById('personOnCall').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
             const product = document.getElementById('product').value.trim();
             const agentId = document.getElementById('agentId').value.trim();
             const agentName = document.getElementById('agentName').value.trim();
@@ -300,6 +307,7 @@
                 '?action=addSale' +
                 '&nameOnBill=' + encodeURIComponent(nameOnBill) +
                 '&personOnCall=' + encodeURIComponent(personOnCall) +
+                '&phoneNumber=' + encodeURIComponent(phoneNumber) +
                 '&product=' + encodeURIComponent(product) +
                 '&agentId=' + encodeURIComponent(agentId) +
                 '&agentName=' + encodeURIComponent(agentName) +
@@ -346,7 +354,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const phone = urlParams.get('phone');
             if (phone) {
-                document.getElementById('referenceNumber').value = phone;
+                document.getElementById('phoneNumber').value = phone;
             }
         }
     </script>
