@@ -261,8 +261,8 @@
     </div>
 
     <script>
-        // ⚠️ IMPORTANT: Yahan bhi apna Google Apps Script URL daalna!
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxqIspnVRKu7WAXgD5ez7z3s5eZLGN-1dbiH7o7I9tcV1IyT8AjYBpvRymx5AIH-KY/exec';
+        // ⚠️ YAHAN APNA GOOGLE APPS SCRIPT URL DAALO
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwH4nC9JFYUZ4hg-7IKW72HYHtffFR3iQaRNtfQGS-WIZuPOgw9JDSaBL0HRQvz-84/exec';
 
         // Auto-fill phone from URL if coming from check page
         window.onload = function() {
@@ -286,31 +286,34 @@
             errorDiv.classList.remove('show');
 
             // Collect data
-            const data = {
-                action: 'addSale',
-                nameOnBill: document.getElementById('nameOnBill').value.trim(),
-                personOnCall: document.getElementById('personOnCall').value.trim(),
-                product: document.getElementById('product').value.trim(),
-                agentId: document.getElementById('agentId').value.trim(),
-                agentName: document.getElementById('agentName').value.trim(),
-                referenceNumber: document.getElementById('referenceNumber').value.trim(),
-                conf: document.getElementById('conf').value.trim(),
-                status: document.getElementById('status').value
-            };
+            const nameOnBill = document.getElementById('nameOnBill').value.trim();
+            const personOnCall = document.getElementById('personOnCall').value.trim();
+            const product = document.getElementById('product').value.trim();
+            const agentId = document.getElementById('agentId').value.trim();
+            const agentName = document.getElementById('agentName').value.trim();
+            const referenceNumber = document.getElementById('referenceNumber').value.trim();
+            const conf = document.getElementById('conf').value.trim();
+            const status = document.getElementById('status').value;
+
+            // Build URL with query parameters (GET request instead of POST)
+            const url = API_URL + 
+                '?action=addSale' +
+                '&nameOnBill=' + encodeURIComponent(nameOnBill) +
+                '&personOnCall=' + encodeURIComponent(personOnCall) +
+                '&product=' + encodeURIComponent(product) +
+                '&agentId=' + encodeURIComponent(agentId) +
+                '&agentName=' + encodeURIComponent(agentName) +
+                '&referenceNumber=' + encodeURIComponent(referenceNumber) +
+                '&conf=' + encodeURIComponent(conf) +
+                '&status=' + encodeURIComponent(status);
 
             // Show loading
             loadingDiv.classList.add('show');
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
+                // Use GET request instead of POST
+                const response = await fetch(url);
                 const result = await response.json();
 
                 loadingDiv.classList.remove('show');
@@ -327,14 +330,14 @@
                         document.getElementById('referenceNumber').value = phone;
                     }
                 } else {
-                    errorDiv.textContent = `❌ Error: ${result.error || 'Something went wrong'}`;
+                    errorDiv.textContent = '❌ Error: ' + (result.error || 'Something went wrong');
                     errorDiv.classList.add('show');
                 }
 
             } catch (err) {
                 loadingDiv.classList.remove('show');
                 submitBtn.disabled = false;
-                errorDiv.textContent = `❌ Network Error: ${err.message}`;
+                errorDiv.textContent = '❌ Network Error: ' + err.message;
                 errorDiv.classList.add('show');
             }
         }
