@@ -314,7 +314,7 @@
             try {
                 // Use GET request instead of POST
                 const response = await fetch(url);
-                const result = await response.json();
+                const text = await response.text(); const result = JSON.parse(text);
 
                 loadingDiv.classList.remove('show');
                 submitBtn.disabled = false;
