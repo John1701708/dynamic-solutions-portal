@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Solutions - Sales Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #888;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .nav-links a {
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #764ba2;
+        }
+
+        .loading {
+            text-align: center;
+            color: #667eea;
+            font-size: 1.2em;
+            display: none;
+            margin-top: 15px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>📝 Dynamic Solutions</h1>
+            <p>Sales Entry Form</p>
+        </div>
+
+        <form id="salesForm" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="nameOnBill">Name on Bill *</label>
+                <input type="text" id="nameOnBill" required placeholder="Enter name on bill">
+            </div>
+
+            <div class="form-group">
+                <label for="personOnCall">Person on Call *</label>
+                <input type="text" id="personOnCall" required placeholder="Enter person on call">
+            </div>
+
+            <div class="form-group">
+                <label for="product">Product *</label>
+                <input type="text" id="product" required placeholder="Enter product name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="agentId">Agent ID *</label>
+                    <input type="text" id="agentId" required placeholder="Agent ID">
+                </div>
+                <div class="form-group">
+                    <label for="agentName">Agent Name *</label>
+                    <input type="text" id="agentName" required placeholder="Agent Name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="referenceNumber">Reference Number (Phone) *</label>
+                <input type="text" id="referenceNumber" required placeholder="Enter phone/reference number">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="conf">CONF *</label>
+                    <input type="text" id="conf" required placeholder="Confirmation number">
+                </div>
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Confirmed">✅ Confirmed</option>
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Processing">🔄 Processing</option>
+                        <option value="Cancelled">❌ Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                💾 Submit Sale
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            ⏳ Saving sale data...
+        </div>
+
+        <div class="success" id="success">
+            <h3>✅ Sale Added Successfully!</h3>
+            <p>Data has been saved to Google Sheet.</p>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="nav-links">
+            <a href="index.html">🔍 Go to Number Check</a>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ IMPORTANT: Yahan bhi apna Google Apps Script URL daalna!
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxaht4dW0J3dm8MMi0j3rFPAt-_4Xq_uWgKXg8T6ucC5ZpVBo4SWlcSrVtZ5u_pUKc/exec';
+
+        // Auto-fill phone from URL if coming from check page
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const phone = urlParams.get('phone');
+            if (phone) {
+                document.getElementById('referenceNumber').value = phone;
+            }
+        };
+
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingDiv = document.getElementById('loading');
+            const successDiv = document.getElementById('success');
+            const errorDiv = document.getElementById('error');
+
+            // Reset
+            successDiv.classList.remove('show');
+            errorDiv.classList.remove('show');
+
+            // Collect data
+            const data = {
+                action: 'addSale',
+                nameOnBill: document.getElementById('nameOnBill').value.trim(),
+                personOnCall: document.getElementById('personOnCall').value.trim(),
+                product: document.getElementById('product').value.trim(),
+                agentId: document.getElementById('agentId').value.trim(),
+                agentName: document.getElementById('agentName').value.trim(),
+                referenceNumber: document.getElementById('referenceNumber').value.trim(),
+                conf: document.getElementById('conf').value.trim(),
+                status: document.getElementById('status').value
+            };
+
+            // Show loading
+            loadingDiv.classList.add('show');
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                loadingDiv.classList.remove('show');
+                submitBtn.disabled = false;
+
+                if (result.success) {
+                    successDiv.classList.add('show');
+                    document.getElementById('salesForm').reset();
+                    
+                    // Auto-fill phone again if it was from URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const phone = urlParams.get('phone');
+                    if (phone) {
+                        document.getElementById('referenceNumber').value = phone;
+                    }
+                } else {
+                    errorDiv.textContent = `❌ Error: ${result.error || 'Something went wrong'}`;
+                    errorDiv.classList.add('show');
+                }
+
+            } catch (err) {
+                loadingDiv.classList.remove('show');
+                submitBtn.disabled = false;
+                errorDiv.textContent = `❌ Network Error: ${err.message}`;
+                errorDiv.classList.add('show');
+            }
+        }
+    </script>
+</body>
+</html>
