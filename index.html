@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,63 +22,72 @@
         }
 
         .container {
-            background: white;
-            border-radius: 20px;
+            background: #ffffff;
+            border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.4);
             width: 100%;
             max-width: 600px;
         }
 
-        .logo {
+        .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #e94560;
         }
 
-        .logo h1 {
-            color: #667eea;
-            font-size: 2.5em;
-            margin-bottom: 5px;
+        .header h1 {
+            color: #1a1a2e;
+            font-size: 2.2em;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .logo p {
-            color: #888;
+        .header p {
+            color: #666;
             font-size: 1.1em;
+            font-weight: 500;
         }
 
         .search-box {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-bottom: 30px;
         }
 
         .search-box input {
             flex: 1;
-            padding: 15px 20px;
+            padding: 16px 20px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             font-size: 1.1em;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: #fafafa;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #e94560;
+            box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
         }
 
         .search-box button {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #e94560 0%, #c23a51 100%);
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 1.1em;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            text-transform: uppercase;
         }
 
         .search-box button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
         }
 
         .search-box button:disabled {
@@ -89,45 +98,36 @@
 
         .result {
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 12px;
             margin-top: 20px;
             display: none;
+            border-left: 5px solid;
         }
 
         .result.show {
             display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            animation: slideIn 0.4s ease;
         }
 
         .result.proceed {
             background: #d4edda;
-            border: 2px solid #28a745;
+            border-color: #28a745;
         }
 
         .result.sold {
             background: #fff3cd;
-            border: 2px solid #ffc107;
+            border-color: #ffc107;
         }
 
         .result.dnc {
             background: #f8d7da;
-            border: 2px solid #dc3545;
+            border-color: #dc3545;
         }
 
         .result h2 {
             margin-bottom: 15px;
-            font-size: 1.5em;
+            font-size: 1.4em;
+            font-weight: 700;
         }
 
         .result.proceed h2 { color: #155724; }
@@ -137,39 +137,61 @@
         .result p {
             margin: 8px 0;
             color: #333;
-            font-size: 1.05em;
+            font-size: 1em;
         }
 
         .result .label {
-            font-weight: bold;
+            font-weight: 700;
             color: #555;
+        }
+
+        .btn-proceed {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-proceed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
         }
 
         .nav-links {
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-top: 25px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
         }
 
         .nav-links a {
-            padding: 12px 25px;
-            background: #667eea;
+            padding: 12px 28px;
+            background: #1a1a2e;
             color: white;
             text-decoration: none;
-            border-radius: 10px;
-            transition: background 0.3s;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
         }
 
         .nav-links a:hover {
-            background: #764ba2;
+            background: #e94560;
+            transform: translateY(-2px);
         }
 
         .loading {
             text-align: center;
-            color: #667eea;
-            font-size: 1.2em;
+            color: #e94560;
+            font-size: 1.1em;
             display: none;
+            font-weight: 600;
         }
 
         .loading.show {
@@ -183,32 +205,44 @@
             border-radius: 10px;
             margin-top: 15px;
             display: none;
+            border-left: 5px solid #dc3545;
         }
 
         .error.show {
             display: block;
         }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
+        <div class="header">
             <h1>🔍 Dynamic Solutions</h1>
-            <p>Number Check Portal</p>
+            <p>Number Verification Portal</p>
         </div>
 
         <div class="search-box">
             <input 
                 type="text" 
                 id="phoneInput" 
-                placeholder="Enter phone number to check..."
+                placeholder="Enter phone number to verify..."
                 onkeypress="if(event.key==='Enter') checkNumber()"
             >
             <button id="checkBtn" onclick="checkNumber()">Check</button>
         </div>
 
         <div class="loading" id="loading">
-            ⏳ Checking number...
+            ⏳ Verifying number...
         </div>
 
         <div class="error" id="error"></div>
@@ -218,13 +252,12 @@
         </div>
 
         <div class="nav-links">
-            <a href="form.html">📝 Go to Sales Form</a>
+            <a href="form.html">📝 Sales Entry Form</a>
         </div>
     </div>
 
     <script>
-        // ⚠️ IMPORTANT: Yahan apna Google Apps Script URL daalna!
-        const API_URL = 'https://script.google.com/macros/s/AKfycbxqIspnVRKu7WAXgD5ez7z3s5eZLGN-1dbiH7o7I9tcV1IyT8AjYBpvRymx5AIH-KY/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyw05Jy1rdJ3EnGjqdLGgDm5OJhuHHwxplPhbOy_WeMVp6p-0Qaqzn2n94_TXdu0UA/exec';
 
         async function checkNumber() {
             const phoneInput = document.getElementById('phoneInput');
@@ -234,7 +267,6 @@
             const errorDiv = document.getElementById('error');
             const checkBtn = document.getElementById('checkBtn');
 
-            // Reset
             resultDiv.classList.remove('show', 'proceed', 'sold', 'dnc');
             errorDiv.classList.remove('show');
             
@@ -244,7 +276,6 @@
                 return;
             }
 
-            // Show loading
             loadingDiv.classList.add('show');
             checkBtn.disabled = true;
 
@@ -255,13 +286,6 @@
                 loadingDiv.classList.remove('show');
                 checkBtn.disabled = false;
 
-                if (data.error) {
-                    errorDiv.textContent = `❌ Error: ${data.error}`;
-                    errorDiv.classList.add('show');
-                    return;
-                }
-
-                // Show result based on status
                 let html = '';
                 
                 if (data.status === 'PROCEED') {
@@ -269,12 +293,9 @@
                     html = `
                         <h2>✅ ${data.message}</h2>
                         <p>This number is new and ready for sale!</p>
-                        <p style="margin-top:15px;">
-                            <a href="form.html?phone=${encodeURIComponent(phone)}" 
-                               style="display:inline-block;padding:10px 20px;background:#28a745;color:white;text-decoration:none;border-radius:8px;">
-                                📝 Fill Sales Form
-                            </a>
-                        </p>
+                        <a href="form.html?phone=${encodeURIComponent(phone)}" class="btn-proceed">
+                            📝 Fill Sales Form
+                        </a>
                     `;
                 } 
                 else if (data.status === 'ALREADY_SOLD') {
@@ -284,14 +305,11 @@
                         <h2>⚠️ ${data.message}</h2>
                         <p><span class="label">Name on Bill:</span> ${d.nameOnBill || 'N/A'}</p>
                         <p><span class="label">Person on Call:</span> ${d.personOnCall || 'N/A'}</p>
+                        <p><span class="label">Phone:</span> ${d.referenceNumber || 'N/A'}</p>
                         <p><span class="label">Product:</span> ${d.product || 'N/A'}</p>
-                        <p><span class="label">Agent ID:</span> ${d.agentId || 'N/A'}</p>
-                        <p><span class="label">Reference Number:</span> ${d.referenceNumber || 'N/A'}</p>
-                        <p><span class="label">Agent Name:</span> ${d.agentName || 'N/A'}</p>
-                        <p><span class="label">CONF:</span> ${d.conf || 'N/A'}</p>
+                        <p><span class="label">Agent:</span> ${d.agentName || 'N/A'} (${d.agentId || 'N/A'})</p>
                         <p><span class="label">Status:</span> ${d.status || 'N/A'}</p>
                         <p><span class="label">Date:</span> ${d.date || 'N/A'}</p>
-                        <p><span class="label">Timestamp:</span> ${d.timestamp || 'N/A'}</p>
                     `;
                 } 
                 else if (data.status === 'DNC') {
@@ -311,7 +329,7 @@
             } catch (err) {
                 loadingDiv.classList.remove('show');
                 checkBtn.disabled = false;
-                errorDiv.textContent = `❌ Network Error: ${err.message}`;
+                errorDiv.textContent = '❌ Network Error: ' + err.message;
                 errorDiv.classList.add('show');
             }
         }
