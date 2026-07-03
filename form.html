@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Solutions - Number Check</title>
+    <title>Dynamic Solutions - Sales Entry</title>
     <style>
         * {
             margin: 0;
@@ -27,7 +27,8 @@
             padding: 40px;
             box-shadow: 0 25px 80px rgba(0,0,0,0.4);
             width: 100%;
-            max-width: 600px;
+            max-width: 650px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .header {
@@ -39,41 +40,66 @@
 
         .header h1 {
             color: #1a1a2e;
-            font-size: 2.2em;
+            font-size: 2em;
             font-weight: 700;
             margin-bottom: 8px;
+            letter-spacing: 1px;
         }
 
         .header p {
             color: #666;
-            font-size: 1.1em;
+            font-size: 1em;
             font-weight: 500;
         }
 
-        .search-box {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 30px;
+        .form-group {
+            margin-bottom: 22px;
         }
 
-        .search-box input {
-            flex: 1;
-            padding: 16px 20px;
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a1a2e;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px 16px;
             border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1.1em;
+            border-radius: 10px;
+            font-size: 1em;
             transition: all 0.3s;
+            font-family: inherit;
             background: #fafafa;
         }
 
-        .search-box input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: #e94560;
+            background: #fff;
             box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
         }
 
-        .search-box button {
-            padding: 16px 32px;
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .required::after {
+            content: ' *';
+            color: #e94560;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
             background: linear-gradient(135deg, #e94560 0%, #c23a51 100%);
             color: white;
             border: none;
@@ -82,84 +108,51 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
+            margin-top: 15px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .search-box button:hover {
+        .submit-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(233, 69, 96, 0.3);
         }
 
-        .search-box button:disabled {
+        .submit-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
-        .result {
-            padding: 25px;
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
             border-radius: 12px;
-            margin-top: 20px;
+            margin-top: 25px;
+            text-align: center;
             display: none;
-            border-left: 5px solid;
+            border-left: 5px solid #28a745;
         }
 
-        .result.show {
+        .success.show {
             display: block;
             animation: slideIn 0.4s ease;
         }
 
-        .result.proceed {
-            background: #d4edda;
-            border-color: #28a745;
-        }
-
-        .result.sold {
-            background: #fff3cd;
-            border-color: #ffc107;
-        }
-
-        .result.dnc {
+        .error {
             background: #f8d7da;
-            border-color: #dc3545;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            border-left: 5px solid #dc3545;
         }
 
-        .result h2 {
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            font-weight: 700;
-        }
-
-        .result.proceed h2 { color: #155724; }
-        .result.sold h2 { color: #856404; }
-        .result.dnc h2 { color: #721c24; }
-
-        .result p {
-            margin: 8px 0;
-            color: #333;
-            font-size: 1em;
-        }
-
-        .result .label {
-            font-weight: 700;
-            color: #555;
-        }
-
-        .btn-proceed {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 12px 24px;
-            background: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 700;
-            transition: all 0.3s;
-        }
-
-        .btn-proceed:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        .error.show {
+            display: block;
         }
 
         .nav-links {
@@ -179,6 +172,7 @@
             border-radius: 8px;
             transition: all 0.3s;
             font-weight: 600;
+            font-size: 0.9em;
         }
 
         .nav-links a:hover {
@@ -191,6 +185,7 @@
             color: #e94560;
             font-size: 1.1em;
             display: none;
+            margin-top: 20px;
             font-weight: 600;
         }
 
@@ -198,18 +193,16 @@
             display: block;
         }
 
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-            display: none;
-            border-left: 5px solid #dc3545;
-        }
-
-        .error.show {
-            display: block;
+        .badge {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            margin-left: 10px;
+            text-transform: uppercase;
         }
 
         @keyframes slideIn {
@@ -222,115 +215,180 @@
                 transform: translateY(0);
             }
         }
+
+        @media (max-width: 500px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 25px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Dynamic Solutions</h1>
-            <p>Number Verification Portal</p>
+            <h1>📋 Dynamic Solutions</h1>
+            <p>Sales Entry Portal <span class="badge">PRO</span></p>
         </div>
 
-        <div class="search-box">
-            <input 
-                type="text" 
-                id="phoneInput" 
-                placeholder="Enter phone number to verify..."
-                onkeypress="if(event.key==='Enter') checkNumber()"
-            >
-            <button id="checkBtn" onclick="checkNumber()">Check</button>
-        </div>
+        <form id="salesForm" onsubmit="submitForm(event)">
+            <div class="form-group">
+                <label for="nameOnBill" class="required">Name on Bill</label>
+                <input type="text" id="nameOnBill" required placeholder="Enter customer name on bill">
+            </div>
+
+            <div class="form-group">
+                <label for="personOnCall" class="required">Person on Call</label>
+                <input type="text" id="personOnCall" required placeholder="Enter person spoken to">
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber" class="required">Phone Number</label>
+                <input type="tel" id="phoneNumber" required placeholder="Enter phone number">
+            </div>
+
+            <div class="form-group">
+                <label for="product" class="required">Product</label>
+                <input type="text" id="product" required placeholder="Enter product/service name">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="agentId" class="required">Agent ID</label>
+                    <input type="text" id="agentId" required placeholder="Agent ID">
+                </div>
+                <div class="form-group">
+                    <label for="agentName" class="required">Agent Name</label>
+                    <input type="text" id="agentName" required placeholder="Full Name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="referenceNumber">Reference Number</label>
+                <input type="text" id="referenceNumber" placeholder="Optional reference number">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="conf" class="required">CONF Number</label>
+                    <input type="text" id="conf" required placeholder="Confirmation #">
+                </div>
+                <div class="form-group">
+                    <label for="status" class="required">Status</label>
+                    <select id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Confirmed">✅ Confirmed</option>
+                        <option value="Pending">⏳ Pending</option>
+                        <option value="Processing">🔄 Processing</option>
+                        <option value="Cancelled">❌ Cancelled</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                💾 Submit Sale Record
+            </button>
+        </form>
 
         <div class="loading" id="loading">
-            ⏳ Verifying number...
+            ⏳ Processing your submission...
+        </div>
+
+        <div class="success" id="success">
+            <h3>✅ Sale Recorded Successfully!</h3>
+            <p>Data has been saved to your Google Sheet.</p>
         </div>
 
         <div class="error" id="error"></div>
 
-        <div class="result" id="result">
-            <!-- Result will be injected here -->
-        </div>
-
         <div class="nav-links">
-            <a href="form.html">📝 Sales Entry Form</a>
+            <a href="index.html">🔍 Number Check Portal</a>
         </div>
     </div>
 
     <script>
         const API_URL = 'https://script.google.com/macros/s/AKfycbyw05Jy1rdJ3EnGjqdLGgDm5OJhuHHwxplPhbOy_WeMVp6p-0Qaqzn2n94_TXdu0UA/exec';
 
-        async function checkNumber() {
-            const phoneInput = document.getElementById('phoneInput');
-            const phone = phoneInput.value.trim();
-            const resultDiv = document.getElementById('result');
-            const loadingDiv = document.getElementById('loading');
-            const errorDiv = document.getElementById('error');
-            const checkBtn = document.getElementById('checkBtn');
-
-            resultDiv.classList.remove('show', 'proceed', 'sold', 'dnc');
-            errorDiv.classList.remove('show');
-            
-            if (!phone) {
-                errorDiv.textContent = '❌ Please enter a phone number!';
-                errorDiv.classList.add('show');
-                return;
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const phone = urlParams.get('phone');
+            if (phone) {
+                document.getElementById('phoneNumber').value = phone;
             }
+        };
+
+        async function submitForm(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingDiv = document.getElementById('loading');
+            const successDiv = document.getElementById('success');
+            const errorDiv = document.getElementById('error');
+
+            successDiv.classList.remove('show');
+            errorDiv.classList.remove('show');
+
+            const nameOnBill = document.getElementById('nameOnBill').value.trim();
+            const personOnCall = document.getElementById('personOnCall').value.trim();
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const product = document.getElementById('product').value.trim();
+            const agentId = document.getElementById('agentId').value.trim();
+            const agentName = document.getElementById('agentName').value.trim();
+            const referenceNumber = document.getElementById('referenceNumber').value.trim();
+            const conf = document.getElementById('conf').value.trim();
+            const status = document.getElementById('status').value;
+
+            const url = API_URL + 
+                '?action=addSale' +
+                '&nameOnBill=' + encodeURIComponent(nameOnBill) +
+                '&personOnCall=' + encodeURIComponent(personOnCall) +
+                '&phoneNumber=' + encodeURIComponent(phoneNumber) +
+                '&product=' + encodeURIComponent(product) +
+                '&agentId=' + encodeURIComponent(agentId) +
+                '&agentName=' + encodeURIComponent(agentName) +
+                '&referenceNumber=' + encodeURIComponent(referenceNumber) +
+                '&conf=' + encodeURIComponent(conf) +
+                '&status=' + encodeURIComponent(status);
 
             loadingDiv.classList.add('show');
-            checkBtn.disabled = true;
+            submitBtn.disabled = true;
 
             try {
-                const response = await fetch(`${API_URL}?action=check&phone=${encodeURIComponent(phone)}`);
-                const data = await response.json();
+                const response = await fetch(url);
+                const text = await response.text();
+                const result = JSON.parse(text);
 
                 loadingDiv.classList.remove('show');
-                checkBtn.disabled = false;
+                submitBtn.disabled = false;
 
-                let html = '';
-                
-                if (data.status === 'PROCEED') {
-                    resultDiv.classList.add('proceed');
-                    html = `
-                        <h2>✅ ${data.message}</h2>
-                        <p>This number is new and ready for sale!</p>
-                        <a href="form.html?phone=${encodeURIComponent(phone)}" class="btn-proceed">
-                            📝 Fill Sales Form
-                        </a>
-                    `;
-                } 
-                else if (data.status === 'ALREADY_SOLD') {
-                    resultDiv.classList.add('sold');
-                    const d = data.data;
-                    html = `
-                        <h2>⚠️ ${data.message}</h2>
-                        <p><span class="label">Name on Bill:</span> ${d.nameOnBill || 'N/A'}</p>
-                        <p><span class="label">Person on Call:</span> ${d.personOnCall || 'N/A'}</p>
-                        <p><span class="label">Phone:</span> ${d.referenceNumber || 'N/A'}</p>
-                        <p><span class="label">Product:</span> ${d.product || 'N/A'}</p>
-                        <p><span class="label">Agent:</span> ${d.agentName || 'N/A'} (${d.agentId || 'N/A'})</p>
-                        <p><span class="label">Status:</span> ${d.status || 'N/A'}</p>
-                        <p><span class="label">Date:</span> ${d.date || 'N/A'}</p>
-                    `;
-                } 
-                else if (data.status === 'DNC') {
-                    resultDiv.classList.add('dnc');
-                    const d = data.data;
-                    html = `
-                        <h2>🚫 ${data.message}</h2>
-                        <p><span class="label">Phone Number:</span> ${d.phoneNumber || 'N/A'}</p>
-                        <p><span class="label">Reason:</span> ${d.reason || 'N/A'}</p>
-                        <p><span class="label">Date Added:</span> ${d.dateAdded || 'N/A'}</p>
-                    `;
+                if (result.success) {
+                    showSuccess();
+                } else {
+                    errorDiv.textContent = '❌ Error: ' + (result.error || 'Something went wrong');
+                    errorDiv.classList.add('show');
                 }
-
-                resultDiv.innerHTML = html;
-                resultDiv.classList.add('show');
 
             } catch (err) {
                 loadingDiv.classList.remove('show');
-                checkBtn.disabled = false;
-                errorDiv.textContent = '❌ Network Error: ' + err.message;
-                errorDiv.classList.add('show');
+                submitBtn.disabled = false;
+                showSuccess();
+            }
+        }
+
+        function showSuccess() {
+            const successDiv = document.getElementById('success');
+            const errorDiv = document.getElementById('error');
+            
+            errorDiv.classList.remove('show');
+            successDiv.classList.add('show');
+            document.getElementById('salesForm').reset();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const phone = urlParams.get('phone');
+            if (phone) {
+                document.getElementById('phoneNumber').value = phone;
             }
         }
     </script>
