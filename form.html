@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Solutions - Sales Entry</title>
+    <title>Dynamic Solutions - Sales Form</title>
     <style>
         * {
             margin: 0;
@@ -67,7 +67,8 @@
         }
 
         .form-group input,
-        .form-group select {
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 14px 16px;
             border: 2px solid #e0e0e0;
@@ -79,11 +80,17 @@
         }
 
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
             border-color: #e94560;
             background: #fff;
             box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         .form-row {
@@ -249,6 +256,24 @@
                 <input type="tel" id="phoneNumber" required placeholder="Enter phone number">
             </div>
 
+            <!-- 🏠 ADDRESS -->
+            <div class="form-group">
+                <label for="address">Address</label>
+                <textarea id="address" placeholder="Enter customer address (optional)"></textarea>
+            </div>
+
+            <!-- ⚡ ELECTRIC ACCOUNT NUMBER -->
+            <div class="form-group">
+                <label for="electricAccount">Electric Account Number</label>
+                <input type="text" id="electricAccount" placeholder="Enter electric account number (optional)">
+            </div>
+
+            <!-- 🔥 GAS ACCOUNT NUMBER -->
+            <div class="form-group">
+                <label for="gasAccount">Gas Account Number</label>
+                <input type="text" id="gasAccount" placeholder="Enter gas account number (optional)">
+            </div>
+
             <div class="form-group">
                 <label for="product" class="required">Product</label>
                 <input type="text" id="product" required placeholder="Enter product/service name">
@@ -309,8 +334,7 @@
     </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzNqb4OeVbVRShGp5tMXkZTdVp4_xYdDPpEmyU8JlV_ZFvlG8cxpvMYqRDDaLJVO1s/exec';
-
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzLH_Jplf8B1jNQBkwE8wH8Y9TGgIAYRBey0m4sVc2nUfCKJdQ81tFZqm1m2H8lM0g/exec';
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             const phone = urlParams.get('phone');
@@ -333,6 +357,9 @@
             const nameOnBill = document.getElementById('nameOnBill').value.trim();
             const personOnCall = document.getElementById('personOnCall').value.trim();
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const electricAccount = document.getElementById('electricAccount').value.trim();
+            const gasAccount = document.getElementById('gasAccount').value.trim();
             const product = document.getElementById('product').value.trim();
             const agentId = document.getElementById('agentId').value.trim();
             const agentName = document.getElementById('agentName').value.trim();
@@ -345,6 +372,9 @@
                 '&nameOnBill=' + encodeURIComponent(nameOnBill) +
                 '&personOnCall=' + encodeURIComponent(personOnCall) +
                 '&phoneNumber=' + encodeURIComponent(phoneNumber) +
+                '&address=' + encodeURIComponent(address) +
+                '&electricAccount=' + encodeURIComponent(electricAccount) +
+                '&gasAccount=' + encodeURIComponent(gasAccount) +
                 '&product=' + encodeURIComponent(product) +
                 '&agentId=' + encodeURIComponent(agentId) +
                 '&agentName=' + encodeURIComponent(agentName) +
