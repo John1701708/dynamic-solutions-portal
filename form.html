@@ -104,6 +104,12 @@
             color: #e94560;
         }
 
+        .fixed-field {
+            background: #e8e8e8 !important;
+            color: #555 !important;
+            cursor: not-allowed;
+        }
+
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -262,26 +268,32 @@
                 <textarea id="address" placeholder="Enter customer address (optional)"></textarea>
             </div>
 
-            <!-- ⚡ UTILITY NAME -->
+            <!-- ⚡ UTILITY NAME - Agent khud type karega -->
             <div class="form-group">
                 <label for="utilityName" class="required">Utility Name</label>
-                <select id="utilityName" required>
-                    <option value="">Select Utility</option>
+                <input type="text" id="utilityName" required placeholder="e.g. ConEd, PECO, National Grid">
+            </div>
+
+            <!-- 🔌 ELEC/GAS - Dropdown sirf Electric ya Gas -->
+            <div class="form-group">
+                <label for="elecGas" class="required">Elec / Gas</label>
+                <select id="elecGas" required>
+                    <option value="">Select Type</option>
                     <option value="Electric">⚡ Electric</option>
                     <option value="Gas">🔥 Gas</option>
-                    <option value="Elec/Gas">⚡🔥 Elec/Gas</option>
                 </select>
             </div>
 
-            <!-- 🔢 ACCOUNT NUMBER (Electric Account Number ka naam badal ke) -->
+            <!-- 🔢 ACCOUNT NUMBER -->
             <div class="form-group">
                 <label for="accountNumber">Account Number</label>
                 <input type="text" id="accountNumber" placeholder="Enter account number (optional)">
             </div>
 
+            <!-- 📦 PRODUCT - FIXED "Discount Power" -->
             <div class="form-group">
-                <label for="product" class="required">Product</label>
-                <input type="text" id="product" required placeholder="Enter product/service name">
+                <label>Product</label>
+                <input type="text" id="product" value="Discount Power" class="fixed-field" readonly>
             </div>
 
             <div class="form-row">
@@ -334,12 +346,12 @@
         <div class="error" id="error"></div>
 
         <div class="nav-links">
-            <a href="index.html">🔍 Number Check Portal</a>
+            <a href="index.html">🔍 DNC Check Portal</a>
         </div>
     </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwLRSoMBvslNaY-jWkKRUrRTFPuMZLWCxpW0ZeZ4ayWVPXz7DS7IG2r9iY9pUMmXDQ/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbxur8ARwA0PJP6m7eSmDshvdsCpLjbOQB1Vss3G3hsh5Ua6d7zyGtgSjdHHGwCI2xc/exec';
 
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -364,9 +376,10 @@
             const personOnCall = document.getElementById('personOnCall').value.trim();
             const phoneNumber = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('address').value.trim();
-            const utilityName = document.getElementById('utilityName').value;
+            const utilityName = document.getElementById('utilityName').value.trim();
+            const elecGas = document.getElementById('elecGas').value;
             const accountNumber = document.getElementById('accountNumber').value.trim();
-            const product = document.getElementById('product').value.trim();
+            const product = document.getElementById('product').value; // Fixed "Discount Power"
             const agentId = document.getElementById('agentId').value.trim();
             const agentName = document.getElementById('agentName').value.trim();
             const referenceNumber = document.getElementById('referenceNumber').value.trim();
@@ -380,6 +393,7 @@
                 '&phoneNumber=' + encodeURIComponent(phoneNumber) +
                 '&address=' + encodeURIComponent(address) +
                 '&utilityName=' + encodeURIComponent(utilityName) +
+                '&elecGas=' + encodeURIComponent(elecGas) +
                 '&accountNumber=' + encodeURIComponent(accountNumber) +
                 '&product=' + encodeURIComponent(product) +
                 '&agentId=' + encodeURIComponent(agentId) +
@@ -420,6 +434,9 @@
             errorDiv.classList.remove('show');
             successDiv.classList.add('show');
             document.getElementById('salesForm').reset();
+            
+            // Product field ko wapas "Discount Power" set karo
+            document.getElementById('product').value = 'Discount Power';
             
             const urlParams = new URLSearchParams(window.location.search);
             const phone = urlParams.get('phone');
