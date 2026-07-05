@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Solutions - Number Check</title>
+    <title>Dynamic Solutions - DNC Check</title>
     <style>
         * {
             margin: 0;
@@ -82,7 +82,6 @@
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            text-transform: uppercase;
         }
 
         .search-box button:hover {
@@ -114,11 +113,6 @@
             border-color: #28a745;
         }
 
-        .result.sold {
-            background: #fff3cd;
-            border-color: #ffc107;
-        }
-
         .result.dnc {
             background: #f8d7da;
             border-color: #dc3545;
@@ -131,7 +125,6 @@
         }
 
         .result.proceed h2 { color: #155724; }
-        .result.sold h2 { color: #856404; }
         .result.dnc h2 { color: #721c24; }
 
         .result p {
@@ -227,22 +220,22 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔍 Dynamic Solutions</h1>
-            <p>Number Verification Portal</p>
+            <h1>🚫 DNC Check Portal</h1>
+            <p>Check if number is in Do-Not-Call list</p>
         </div>
 
         <div class="search-box">
             <input 
                 type="text" 
                 id="phoneInput" 
-                placeholder="Enter phone number to verify..."
+                placeholder="Enter phone number to check DNC..."
                 onkeypress="if(event.key==='Enter') checkNumber()"
             >
-            <button id="checkBtn" onclick="checkNumber()">Check</button>
+            <button id="checkBtn" onclick="checkNumber()">Check DNC</button>
         </div>
 
         <div class="loading" id="loading">
-            ⏳ Verifying number...
+            ⏳ Checking DNC list...
         </div>
 
         <div class="error" id="error"></div>
@@ -252,12 +245,12 @@
         </div>
 
         <div class="nav-links">
-            <a href="form.html">📝 Sales Entry Form</a>
+            <a href="form.html">📝 Go to Sales Form</a>
         </div>
     </div>
 
     <script>
-        const API_URL = 'https://script.google.com/macros/s/AKfycbzNqb4OeVbVRShGp5tMXkZTdVp4_xYdDPpEmyU8JlV_ZFvlG8cxpvMYqRDDaLJVO1s/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwLRSoMBvslNaY-jWkKRUrRTFPuMZLWCxpW0ZeZ4ayWVPXz7DS7IG2r9iY9pUMmXDQ/exec';
 
         async function checkNumber() {
             const phoneInput = document.getElementById('phoneInput');
@@ -267,7 +260,7 @@
             const errorDiv = document.getElementById('error');
             const checkBtn = document.getElementById('checkBtn');
 
-            resultDiv.classList.remove('show', 'proceed', 'sold', 'dnc');
+            resultDiv.classList.remove('show', 'proceed', 'dnc');
             errorDiv.classList.remove('show');
             
             if (!phone) {
@@ -292,24 +285,10 @@
                     resultDiv.classList.add('proceed');
                     html = `
                         <h2>✅ ${data.message}</h2>
-                        <p>This number is new and ready for sale!</p>
+                        <p>This number is <b>NOT</b> in DNC list.</p>
                         <a href="form.html?phone=${encodeURIComponent(phone)}" class="btn-proceed">
                             📝 Fill Sales Form
                         </a>
-                    `;
-                } 
-                else if (data.status === 'ALREADY_SOLD') {
-                    resultDiv.classList.add('sold');
-                    const d = data.data;
-                    html = `
-                        <h2>⚠️ ${data.message}</h2>
-                        <p><span class="label">Name on Bill:</span> ${d.nameOnBill || 'N/A'}</p>
-                        <p><span class="label">Person on Call:</span> ${d.personOnCall || 'N/A'}</p>
-                        <p><span class="label">Phone:</span> ${d.referenceNumber || 'N/A'}</p>
-                        <p><span class="label">Product:</span> ${d.product || 'N/A'}</p>
-                        <p><span class="label">Agent:</span> ${d.agentName || 'N/A'} (${d.agentId || 'N/A'})</p>
-                        <p><span class="label">Status:</span> ${d.status || 'N/A'}</p>
-                        <p><span class="label">Date:</span> ${d.date || 'N/A'}</p>
                     `;
                 } 
                 else if (data.status === 'DNC') {
@@ -320,6 +299,9 @@
                         <p><span class="label">Phone Number:</span> ${d.phoneNumber || 'N/A'}</p>
                         <p><span class="label">Reason:</span> ${d.reason || 'N/A'}</p>
                         <p><span class="label">Date Added:</span> ${d.dateAdded || 'N/A'}</p>
+                        <p style="margin-top:15px; color:#721c24; font-weight:600;">
+                            ⚠️ DO NOT CALL THIS NUMBER!
+                        </p>
                     `;
                 }
 
