@@ -379,7 +379,7 @@
             const utilityName = document.getElementById('utilityName').value.trim();
             const elecGas = document.getElementById('elecGas').value;
             const accountNumber = document.getElementById('accountNumber').value.trim();
-            const product = document.getElementById('product').value; // Fixed "Discount Power"
+            const product = document.getElementById('product').value;
             const agentId = document.getElementById('agentId').value.trim();
             const agentName = document.getElementById('agentName').value.trim();
             const referenceNumber = document.getElementById('referenceNumber').value.trim();
@@ -435,7 +435,6 @@
             successDiv.classList.add('show');
             document.getElementById('salesForm').reset();
             
-            // Product field ko wapas "Discount Power" set karo
             document.getElementById('product').value = 'Discount Power';
             
             const urlParams = new URLSearchParams(window.location.search);
